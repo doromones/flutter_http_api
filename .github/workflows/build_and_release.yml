@@ -34,8 +34,8 @@ jobs:
      - name: Archive code coverage results
        uses: actions/upload-artifact@v3
        with:
-         name: $APP_NAME.dmg
-         path: $MACOS_APP_RELEASE_PATH/$APP_NAME.dmg
+         name: ${{env.APP_NAME}}.dmg
+         path: ${{env.MACOS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.dmg
 #     - name: Create Release
 #       id: create_release
 #       uses: actions/create-release@v1

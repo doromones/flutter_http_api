@@ -16,10 +16,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1
+      - uses: subosito/flutter-action@v2
         with:
-          sdk: stable
-      - run: dart pub get
+          channel: 'stable'
+      - run: flutter pub get
       - run: flutter analyze
 
   format:
@@ -30,9 +30,9 @@ jobs:
         working-directory: dio
     steps:
       - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1
+      - uses: subosito/flutter-action@v2
         with:
-          sdk: stable
+          channel: 'stable'
       - run: flutter format --set-exit-if-changed .
 
   tests:
@@ -41,14 +41,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        sdk: [ stable, beta ]
+        sdk: [ stable ]
         platform: [ vm, chrome ]
     steps:
       - uses: actions/checkout@v2
-      - uses: dart-lang/setup-dart@v1
+      - uses: subosito/flutter-action@v2
         with:
-          sdk: ${{ matrix.sdk }}
-      - run: dart pub get
+          channel: 'stable'
+      - run: flutter pub get
 #      - run: brew install lcov
       - run: flutter test
 #      - run: flutter test --coverage

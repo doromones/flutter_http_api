@@ -2,14 +2,14 @@ name: GitHub Actions Demo
 run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: [push]
 jobs:
-  build-macos-arm64:
+  build-macos-x64:
     runs-on: macos-latest
     steps:
      - uses: actions/checkout@v3
      - uses: subosito/flutter-action@v2
        with:
          channel: 'stable'
-         architecture: arm64
+         architecture: x64
      - run: /usr/sbin/softwareupdate --install-rosetta --agree-to-license
      - run: flutter config --enable-macos-desktop
      - run: flutter build macos

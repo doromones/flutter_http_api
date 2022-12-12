@@ -1,0 +1,64 @@
+name: GitHub Actions Demo
+run-name: Build artifacts and release 🚀
+on: [push]
+env:
+  APP_NAME: test_http_api
+jobs:
+  build-macos-x64:
+    runs-on: macos-latest
+    env:
+      MACOS_APP_RELEASE_PATH: build/macos/Build/Products/Release
+    steps:
+     - uses: actions/checkout@v3
+     - uses: subosito/flutter-action@v2
+       with:
+         channel: 'stable'
+         architecture: x64
+     - run: flutter config --enable-macos-desktop
+     - run: flutter build macos --release
+     - run: brew install create-dmg
+     - run: |
+          cd $MACOS_APP_RELEASE_PATH
+          create-dmg \
+              --volname "$APP_NAME" \
+              --window-pos 200 120 \
+              --window-size 800 529 \
+              --icon-size 130 \
+              --text-size 14 \
+              --icon "$APP_NAME.app" 260 250 \
+              --hide-extension "$APP_NAME.app" \
+              --app-drop-link 540 250 \
+              --hdiutil-quiet \
+              "$APP_NAME.dmg" \
+              "$APP_NAME.app"
+     - name: Create Release
+       id: create_release
+       uses: actions/create-release@v1
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       with:
+         tag_name: TAG_NAME
+         release_name: Release RELEASE_NUMBER
+         body: |
+           Whatever you want as release note.
+         draft: false
+         prerelease: false
+     - name: Upload Release Asset
+       id: upload-release-asset
+       uses: actions/upload-release-asset@v1
+       env:
+         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+       with:
+         upload_url: ${{ steps.create_release.outputs.upload_url }}
+         asset_path: $MACOS_APP_RELEASE_PATH/$APP_NAME.dmg
+         asset_name: $APP_NAME.dmg
+         asset_content_type: application/octet-stream
+#  build-windows:
+#    runs-on: windows-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: subosito/flutter-action@v2
+#        with:
+#          channel: 'stable'
+#      - run: flutter config --enable-windows-desktop
+#      - run: flutter build windows

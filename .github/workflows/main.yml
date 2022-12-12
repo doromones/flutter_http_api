@@ -10,7 +10,6 @@ jobs:
        with:
          channel: 'stable'
          architecture: x64
-     - run: /usr/sbin/softwareupdate --install-rosetta --agree-to-license
      - run: flutter config --enable-macos-desktop
      - run: flutter build macos
   build-windows:

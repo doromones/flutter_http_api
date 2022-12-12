@@ -19,7 +19,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: stable
-      - run: flutter pub get
+      - run: dart pub get
       - run: flutter analyze
 
   format:
@@ -48,7 +48,7 @@ jobs:
       - uses: dart-lang/setup-dart@v1
         with:
           sdk: ${{ matrix.sdk }}
-      - run: flutter pub get
+      - run: dart pub get
 #      - run: brew install lcov
       - run: flutter test
 #      - run: flutter test --coverage

@@ -1,25 +1,25 @@
-name: GitHub Actions Demo
-run-name: Build artifacts and release 🚀
-on: [push]
-jobs:
-  build-macos-x64:
-    runs-on: macos-latest
-    steps:
-     - uses: actions/checkout@v3
-     - uses: subosito/flutter-action@v2
-       with:
-         channel: 'stable'
-         architecture: x64
-     - run: flutter config --enable-macos-desktop
-     - run: flutter build macos
-     - run: npm install -g appdmg
-     - run: appdmg ./installers/dmg_creator/config.json ./build/macos/test_http_api.dmg
-  build-windows:
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-      - run: flutter config --enable-windows-desktop
-      - run: flutter build windows
+#name: GitHub Actions Demo
+#run-name: Build artifacts and release 🚀
+#on: [push]
+#jobs:
+#  build-macos-x64:
+#    runs-on: macos-latest
+#    steps:
+#     - uses: actions/checkout@v3
+#     - uses: subosito/flutter-action@v2
+#       with:
+#         channel: 'stable'
+#         architecture: x64
+#     - run: flutter config --enable-macos-desktop
+#     - run: flutter build macos
+#     - run: npm install -g appdmg
+#     - run: appdmg ./installers/dmg_creator/config.json ./build/macos/test_http_api.dmg
+#  build-windows:
+#    runs-on: windows-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - uses: subosito/flutter-action@v2
+#        with:
+#          channel: 'stable'
+#      - run: flutter config --enable-windows-desktop
+#      - run: flutter build windows

@@ -31,11 +31,17 @@ jobs:
               --hdiutil-quiet \
               "$APP_NAME.dmg" \
               "$APP_NAME.app"
-     - name: Archive code coverage results
-       uses: actions/upload-artifact@v3
+#     - name: create macos artifact
+#       uses: actions/upload-artifact@v3
+#       with:
+#         name: ${{env.APP_NAME}}.dmg
+#         path: ${{env.MACOS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.dmg
+     - name: Release
+       uses: softprops/action-gh-release@v1
+#       if: startsWith(github.ref, 'refs/tags/')
        with:
-         name: ${{env.APP_NAME}}.dmg
-         path: ${{env.MACOS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.dmg
+         files: |
+           ${{env.MACOS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.dmg
 #     - name: Create Release
 #       id: create_release
 #       uses: actions/create-release@v1

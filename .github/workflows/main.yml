@@ -1,5 +1,5 @@
 name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: Build artifacts and release 🚀
 on: [push]
 jobs:
   build-macos-x64:
@@ -12,6 +12,8 @@ jobs:
          architecture: x64
      - run: flutter config --enable-macos-desktop
      - run: flutter build macos
+     - run: npm install -g appdmg
+     - run: appdmg ./installers/dmg_creator/config.json ./build/macos/test_http_api.dmg
   build-windows:
     runs-on: windows-latest
     steps:

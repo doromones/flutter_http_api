@@ -1,6 +1,8 @@
 name: GitHub Actions Demo
 run-name: Build artifacts and release 🚀
-on: [push]
+on:
+  push:
+    - *
 env:
   APP_NAME: test_http_api
 jobs:
@@ -31,39 +33,13 @@ jobs:
               --hdiutil-quiet \
               "$APP_NAME.dmg" \
               "$APP_NAME.app"
-#     - name: create macos artifact
-#       uses: actions/upload-artifact@v3
-#       with:
-#         name: ${{env.APP_NAME}}.dmg
-#         path: ${{env.MACOS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.dmg
+
      - name: Release
        uses: softprops/action-gh-release@v1
-#       if: startsWith(github.ref, 'refs/tags/')
+       if: startsWith(github.ref, 'refs/tags/')
        with:
          files: |
            ${{env.MACOS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.dmg
-#     - name: Create Release
-#       id: create_release
-#       uses: actions/create-release@v1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:
-#         tag_name: TAG_NAME
-#         release_name: Release RELEASE_NUMBER
-#         body: |
-#           Whatever you want as release note.
-#         draft: false
-#         prerelease: false
-#     - name: Upload Release Asset
-#       id: upload-release-asset
-#       uses: actions/upload-release-asset@v1
-#       env:
-#         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#       with:
-#         upload_url: ${{ steps.create_release.outputs.upload_url }}
-#         asset_path: $MACOS_APP_RELEASE_PATH/$APP_NAME.dmg
-#         asset_name: $APP_NAME.dmg
-#         asset_content_type: application/octet-stream
 #  build-windows:
 #    runs-on: windows-latest
 #    steps:

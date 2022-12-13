@@ -1,8 +1,7 @@
 name: GitHub Actions Demo
 run-name: Build artifacts and release 🚀
-on:
-  push:
-    - *
+on: [push]
+
 env:
   APP_NAME: test_http_api
 jobs:

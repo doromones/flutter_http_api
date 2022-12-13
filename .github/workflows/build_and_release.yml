@@ -52,6 +52,7 @@ jobs:
       - name: Build APK
         run: flutter build apk --release
       - run: mv $ANDROID_APP_RELEASE_PATH/app-release.apk $ANDROID_APP_RELEASE_PATH/$APPNAME.apk
+      - run: ls ./build/app/outputs/flutter-apk
       - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')

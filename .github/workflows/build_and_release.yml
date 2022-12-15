@@ -42,6 +42,7 @@ jobs:
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: ${{env.MACOS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.dmg
+          asset_name: macos_${{env.APP_NAME}}.dmg
   build-android:
     runs-on: ubuntu-latest
     steps:
@@ -57,7 +58,7 @@ jobs:
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: ${{env.ANDROID_APP_RELEASE_PATH}}/${{env.APP_NAME}}.apk
-
+          asset_name: android_${{env.APP_NAME}}.apk
   build-windows:
     runs-on: windows-latest
     steps:
@@ -73,3 +74,4 @@ jobs:
         with:
           upload_url: ${{ github.event.release.upload_url }}
           asset_path: ${{env.WINDOWS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.zip
+          asset_name: windows_${{env.APP_NAME}}.zip

@@ -67,7 +67,7 @@ jobs:
           channel: 'stable'
       - run: flutter config --enable-windows-desktop
       - run: flutter build windows --release
-      - run: Compress-Archive ${{env.WINDOWS_APP_RELEASE_PATH}} ${{env.WINDOWS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.zip
+      - run: Compress-Archive ${{env.WINDOWS_APP_RELEASE_PATH}}/* ${{env.WINDOWS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.zip
       - name: Release
         uses: shogo82148/actions-upload-release-asset@v1
         with:

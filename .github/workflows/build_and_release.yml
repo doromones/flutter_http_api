@@ -1,0 +1,77 @@
+name: Build and Release
+
+on:
+  release:
+    types:
+      - created
+
+env:
+  APP_NAME: test_http_api
+  MACOS_APP_RELEASE_PATH: ./build/macos/Build/Products/Release
+  ANDROID_APP_RELEASE_PATH: ./build/app/outputs/flutter-apk
+  WINDOWS_APP_RELEASE_PATH: ./build/windows/runner/Release
+jobs:
+  build-macos-x64:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          architecture: x64
+      - run: flutter config --enable-macos-desktop
+      - run: flutter build macos --release
+      - run: brew install create-dmg
+      - run: |
+          cd $MACOS_APP_RELEASE_PATH
+          create-dmg \
+              --volname "$APP_NAME" \
+              --window-pos 200 120 \
+              --window-size 800 529 \
+              --icon-size 130 \
+              --text-size 14 \
+              --icon "$APP_NAME.app" 260 250 \
+              --hide-extension "$APP_NAME.app" \
+              --app-drop-link 540 250 \
+              --hdiutil-quiet \
+              "$APP_NAME.dmg" \
+              "$APP_NAME.app"
+
+      - name: Release
+        uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{env.MACOS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.dmg
+          asset_name: macos_${{env.APP_NAME}}.dmg
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: stable
+      - name: Build APK
+        run: flutter build apk --release
+      - run: mv $ANDROID_APP_RELEASE_PATH/app-release.apk $ANDROID_APP_RELEASE_PATH/$APP_NAME.apk
+      - name: Release
+        uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{env.ANDROID_APP_RELEASE_PATH}}/${{env.APP_NAME}}.apk
+          asset_name: android_${{env.APP_NAME}}.apk
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter config --enable-windows-desktop
+      - run: flutter build windows --release
+      - run: Compress-Archive ${{env.WINDOWS_APP_RELEASE_PATH}}/* ${{env.WINDOWS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.zip
+      - name: Release
+        uses: shogo82148/actions-upload-release-asset@v1
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: ${{env.WINDOWS_APP_RELEASE_PATH}}/${{env.APP_NAME}}.zip
+          asset_name: windows_${{env.APP_NAME}}.zip

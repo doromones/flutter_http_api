@@ -7,10 +7,12 @@ import 'package:test_http_api/models/post.dart';
 http.Client client = http.Client();
 
 Future<List<Post>> fetchPosts() async {
-  final response = await client.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
+  final response =
+      await client.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
   if (response.statusCode == 200) {
     Iterable array = jsonDecode(response.body);
-    List<Post> posts = List<Post>.from(array.map((model) => Post.fromJson(model)));
+    List<Post> posts =
+        List<Post>.from(array.map((model) => Post.fromJson(model)));
 
     return posts;
   } else {
@@ -19,7 +21,8 @@ Future<List<Post>> fetchPosts() async {
 }
 
 Future<Post> fetchPost(int postId) async {
-  final response = await client.get(Uri.parse('https://jsonplaceholder.typicode.com/posts/$postId'));
+  final response = await client
+      .get(Uri.parse('https://jsonplaceholder.typicode.com/posts/$postId'));
   if (response.statusCode == 200) {
     return Post.fromJson(jsonDecode(response.body));
   } else {

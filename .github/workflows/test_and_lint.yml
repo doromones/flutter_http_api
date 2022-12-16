@@ -1,0 +1,58 @@
+name: Test And Analyze
+
+on:
+  push:
+    branches:
+      - main
+      - develop*
+  pull_request:
+    branches:
+      - main
+      - develop*
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+      - run: flutter analyze
+
+  format:
+    name: Check formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter format --set-exit-if-changed .
+
+  tests:
+    name: Run unit tests
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [ stable ]
+        platform: [ vm, chrome ]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - run: flutter pub get
+#      - run: brew install lcov
+      - run: flutter test
+#      - run: flutter test --coverage
+#      - run: genhtml coverage/lcov.info -o coverage/html
+#      - name: Upload test report
+#        uses: actions/upload-artifact@v2
+#        if: always()
+#        with:
+#          name: test-results-${{ matrix.sdk }}-${{ matrix.platform }}
+#          path: build/reports/test-results.json

@@ -14,18 +14,14 @@ import 'api_test.mocks.dart';
 // flutter pub run build_runner build
 @GenerateMocks([http.Client])
 void main() {
-  setUp(() async {
-    client = http.Client();
-  });
-
   group('fetchPosts', () {
     test('returns Posts array without mocks', skip: false, () async {
-      final Future<List<Post>> posts = fetchPosts();
+      final Future<List<Post>> posts = Api().fetchPosts();
       expect(await posts, isA<List<Post>>());
     });
 
     test('returns which mocks', () async {
-      client = MockClient();
+      http.Client client = MockClient();
       when(client.get(Uri.parse('https://jsonplaceholder.typicode.com/posts')))
           .thenAnswer((_) async => http.Response(
               json.encode([
@@ -33,18 +29,18 @@ void main() {
                 {"userId": 1, "id": 23, "title": "mock", "body": "mock"}
               ]),
               200));
-      expect(await fetchPosts(), isA<List<Post>>());
+      expect(await Api(client: client).fetchPosts(), isA<List<Post>>());
     });
   });
 
   group('fetchPost', () {
     test('returns Post array without mocks', skip: false, () async {
-      final Future<Post> post = fetchPost(1);
+      final Future<Post> post = Api().fetchPost(1);
       expect(await post, isA<Post>());
     });
 
     test('returns which mocks', () async {
-      client = MockClient();
+      http.Client client = MockClient();
       when(client
               .get(Uri.parse('https://jsonplaceholder.typicode.com/posts/1')))
           .thenAnswer((_) async => http.Response(
@@ -52,7 +48,7 @@ void main() {
                   {"userId": 1, "id": 2, "title": "mock", "body": "mock"}),
               200));
 
-      expect(await fetchPost(1), isA<Post>());
+      expect(await Api(client: client).fetchPost(1), isA<Post>());
     });
   });
 }

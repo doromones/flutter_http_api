@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:test_http_api/models/post.dart';
@@ -7,18 +8,20 @@ import 'package:test_http_api/models/post.dart';
 class Api {
   final http.Client _client;
 
-  Api({http.Client? client}):
-      _client = client ?? http.Client();
+  Api({http.Client? client}) : _client = client ?? http.Client();
 
-  Future<List<Post>> fetchPosts() async {
-    final response =
-    await _client.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
+  Future<Iterable> fetchPosts({int page = 1, int limit = 20}) async {
+    await Future.delayed(Duration(seconds: 1));
+
+    Uri uri = Uri.parse(
+        'https://jsonplaceholder.typicode.com/posts?_page=$page&_limit=$limit'
+    );
+
+    log(uri.toString());
+
+    final response = await _client.get(uri);
     if (response.statusCode == 200) {
-      Iterable array = jsonDecode(response.body);
-      List<Post> posts =
-      List<Post>.from(array.map((model) => Post.fromJson(model)));
-
-      return posts;
+      return jsonDecode(response.body);
     } else {
       throw Exception('Failed to load posts');
     }

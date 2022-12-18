@@ -1,31 +1,47 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:test_http_api/models/post.dart';
 // https://jsonplaceholder.typicode.com/guide/
 
-http.Client client = http.Client();
+class Api {
+  final http.Client _client;
+  final String _domain = 'https://jsonplaceholder.typicode.com';
 
-Future<List<Post>> fetchPosts() async {
-  final response =
-      await client.get(Uri.parse('https://jsonplaceholder.typicode.com/posts'));
-  if (response.statusCode == 200) {
-    Iterable array = jsonDecode(response.body);
-    List<Post> posts =
-        List<Post>.from(array.map((model) => Post.fromJson(model)));
+  Api({http.Client? client}) : _client = client ?? http.Client();
 
-    return posts;
-  } else {
-    throw Exception('Failed to load posts');
+  Future<Iterable> fetchPosts({int page = 1, int limit = 20}) async {
+    Uri uri = Uri.parse('$_domain/posts?_page=$page&_limit=$limit');
+    final response = await get(uri);
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception('Failed to load posts');
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchPost(int postId) async {
+    Uri uri = Uri.parse('$_domain/posts/$postId');
+    final response = await get(uri);
+
+    if (response.statusCode == 200) {
+      return jsonDecode(response.body);
+    } else {
+      throw NotFoundException('Failed to load post');
+    }
+  }
+
+  Future<http.Response> get(Uri uri) async {
+    // await Future.delayed(const Duration(seconds: 1));
+    log(uri.toString());
+
+    return _client.get(uri);
   }
 }
 
-Future<Post> fetchPost(int postId) async {
-  final response = await client
-      .get(Uri.parse('https://jsonplaceholder.typicode.com/posts/$postId'));
-  if (response.statusCode == 200) {
-    return Post.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to load post');
-  }
+class NotFoundException implements Exception {
+  String cause;
+
+  NotFoundException(this.cause);
 }

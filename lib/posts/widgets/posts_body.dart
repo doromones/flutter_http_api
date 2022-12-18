@@ -78,12 +78,9 @@ class _PostsBodyState extends State<PostsBody> {
                   title: Text("${post.id} - ${post.title}"),
                   trailing: IconButton(
                     icon: const Icon(Icons.keyboard_arrow_right),
-                    onPressed: (){
-                      Navigator.pushNamed(
-                        context,
-                        '/post',
-                        arguments: PostPageArguments(post.id)
-                      );
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/post',
+                          arguments: PostPageArguments(post.id));
                     },
                   ),
                   // onTap: () => openPost(context, post)

@@ -27,9 +27,7 @@ class PostsNotifier with ChangeNotifier {
     Iterable posts = await Api().fetchPosts(page: _page);
     if (posts.isNotEmpty) {
       for (var rawPost in posts) {
-        _posts.add(
-            Post.fromJson(rawPost)
-        );
+        _posts.add(Post.fromJson(rawPost));
       }
       _page++;
     } else {

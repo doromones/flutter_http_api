@@ -13,7 +13,7 @@ class PostsPage extends StatelessWidget {
   static Route<dynamic> route() {
     return MaterialPageRoute<dynamic>(builder: (_) => const PostsPage());
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -25,7 +25,7 @@ class PostsPage extends StatelessWidget {
         body: const PostsView(),
       ),
     );
-  }   
+  }
 }
 
 /// {@template posts_view}

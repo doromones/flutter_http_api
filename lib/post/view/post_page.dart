@@ -12,10 +12,11 @@ class PostPage extends StatelessWidget {
   static Route<dynamic> route() {
     return MaterialPageRoute<dynamic>(builder: (_) => const PostPage());
   }
- 
+
   @override
   Widget build(BuildContext context) {
-    final pageArguments = ModalRoute.of(context)!.settings.arguments as PostPageArguments;
+    final pageArguments =
+        ModalRoute.of(context)!.settings.arguments as PostPageArguments;
 
     return ChangeNotifierProvider(
       create: (context) => PostNotifier(),
@@ -23,10 +24,12 @@ class PostPage extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Sample Code'),
         ),
-        body: PostView(pageArguments: pageArguments,),
+        body: PostView(
+          pageArguments: pageArguments,
+        ),
       ),
     );
-  }   
+  }
 }
 
 /// {@template post_view}
@@ -34,14 +37,16 @@ class PostPage extends StatelessWidget {
 /// {@endtemplate}
 class PostView extends StatelessWidget {
   final PostPageArguments pageArguments;
+
   /// {@macro post_view}
   const PostView({super.key, required this.pageArguments});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: PostBody(pageArguments: pageArguments,)
-    );
+        child: PostBody(
+      pageArguments: pageArguments,
+    ));
   }
 }
 

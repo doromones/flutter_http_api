@@ -23,7 +23,8 @@ void main() {
 
     test('returns which mocks', () async {
       http.Client client = MockClient();
-      when(client.get(Uri.parse('https://jsonplaceholder.typicode.com/posts?_page=1&_limit=20')))
+      when(client.get(Uri.parse(
+              'https://jsonplaceholder.typicode.com/posts?_page=1&_limit=20')))
           .thenAnswer((_) async => http.Response(
               json.encode([
                 {"userId": 1, "id": 2, "title": "mock", "body": "mock"},

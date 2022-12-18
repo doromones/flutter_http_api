@@ -25,10 +25,9 @@ class _PostBodyState extends State<PostBody> {
   Widget build(BuildContext context) {
     return Consumer<PostNotifier>(
       builder: (context, state, child) {
-        Widget postWidget =
-            state.postExists
-                ? _PostWidget(post: state.post)
-                : const _PostNotFound();
+        Widget postWidget = state.postExists
+            ? _PostWidget(post: state.post)
+            : const _PostNotFound();
         return postWidget;
       },
     );
@@ -38,10 +37,7 @@ class _PostBodyState extends State<PostBody> {
 class _PostWidget extends StatelessWidget {
   final Post? post;
 
-  const _PostWidget({
-    Key? key,
-    this.post
-  }) : super(key: key);
+  const _PostWidget({Key? key, this.post}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -10,8 +10,7 @@ class Api {
 
   Api({http.Client? client}) : _client = client ?? http.Client();
 
-  Future<Iterable> fetchPosts(
-      {int page = 1, int limit = 20}) async {
+  Future<Iterable> fetchPosts({int page = 1, int limit = 20}) async {
     Uri uri = Uri.parse('$_domain/posts?_page=$page&_limit=$limit');
     final response = await get(uri);
 

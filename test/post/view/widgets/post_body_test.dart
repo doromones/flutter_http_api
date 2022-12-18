@@ -6,11 +6,15 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('PostBody', () {
-    testWidgets('renders Text', (tester) async { 
+    testWidgets('renders Text', (tester) async {
       await tester.pumpWidget(
         Provider(
-          create: (context) => ChangeNotifierProvider(create: (_) => PostNotifier()),
-          child: MaterialApp(home: PostBody(pageArguments: PostPageArguments(2),)),
+          create: (context) =>
+              ChangeNotifierProvider(create: (_) => PostNotifier()),
+          child: MaterialApp(
+              home: PostBody(
+            pageArguments: PostPageArguments(2),
+          )),
         ),
       );
 

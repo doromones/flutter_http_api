@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       routes: {
-        '/': (context)=> const PostsPage(),
-        '/post': (context)=> const PostPage(),
+        '/': (context) => const PostsPage(),
+        '/post': (context) => const PostPage(),
       },
       initialRoute: '/',
     );

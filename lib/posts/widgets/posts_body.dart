@@ -77,7 +77,7 @@ class _PostsBodyState extends State<PostsBody> {
                     child: ListTile(
                   title: Text("${post.id} - ${post.title}"),
                   trailing: IconButton(
-                    icon: Icon(Icons.keyboard_arrow_right),
+                    icon: const Icon(Icons.keyboard_arrow_right),
                     onPressed: (){
                       Navigator.pushNamed(
                         context,

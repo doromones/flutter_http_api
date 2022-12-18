@@ -16,27 +16,31 @@ import 'api_test.mocks.dart';
 void main() {
   group('fetchPosts', () {
     test('returns Posts array without mocks', skip: false, () async {
-      final Future<List<Post>> posts = Api().fetchPosts();
-      expect(await posts, isA<List<Post>>());
+      Iterable posts = await Api().fetchPosts();
+      Post post = Post.fromJson(posts.first);
+      expect(post, isA<Post>());
     });
 
     test('returns which mocks', () async {
       http.Client client = MockClient();
-      when(client.get(Uri.parse('https://jsonplaceholder.typicode.com/posts')))
+      when(client.get(Uri.parse('https://jsonplaceholder.typicode.com/posts?_page=1&_limit=20')))
           .thenAnswer((_) async => http.Response(
               json.encode([
                 {"userId": 1, "id": 2, "title": "mock", "body": "mock"},
                 {"userId": 1, "id": 23, "title": "mock", "body": "mock"}
               ]),
               200));
-      expect(await Api(client: client).fetchPosts(), isA<List<Post>>());
+
+      Iterable posts = await Api(client: client).fetchPosts();
+      Post post = Post.fromJson(posts.first);
+      expect(post, isA<Post>());
     });
   });
 
   group('fetchPost', () {
     test('returns Post array without mocks', skip: false, () async {
-      final Future<Post> post = Api().fetchPost(1);
-      expect(await post, isA<Post>());
+      final Post post = Post.fromJson(await Api().fetchPost(1));
+      expect(post, isA<Post>());
     });
 
     test('returns which mocks', () async {
@@ -48,7 +52,8 @@ void main() {
                   {"userId": 1, "id": 2, "title": "mock", "body": "mock"}),
               200));
 
-      expect(await Api(client: client).fetchPost(1), isA<Post>());
+      final Post post = Post.fromJson(await Api(client: client).fetchPost(1));
+      expect(post, isA<Post>());
     });
   });
 }

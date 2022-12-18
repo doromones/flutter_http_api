@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
-import 'package:test_http_api/models/post.dart';
 // https://jsonplaceholder.typicode.com/guide/
 
 class Api {
@@ -11,7 +10,8 @@ class Api {
 
   Api({http.Client? client}) : _client = client ?? http.Client();
 
-  Future<Iterable> fetchPosts({int page = 1, int limit = 20}) async {
+  Future<Iterable> fetchPosts(
+      {int page = 1, int limit = 20}) async {
     Uri uri = Uri.parse('$_domain/posts?_page=$page&_limit=$limit');
     final response = await get(uri);
 
@@ -34,7 +34,7 @@ class Api {
   }
 
   Future<http.Response> get(Uri uri) async {
-    await Future.delayed(Duration(seconds: 1));
+    // await Future.delayed(const Duration(seconds: 1));
     log(uri.toString());
 
     return _client.get(uri);
@@ -43,5 +43,6 @@ class Api {
 
 class NotFoundException implements Exception {
   String cause;
+
   NotFoundException(this.cause);
 }

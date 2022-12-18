@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:test_http_api/pages/my_home_page.dart';
 import 'package:test_http_api/post/view/post_page.dart';
 import 'package:test_http_api/posts/posts.dart';
 

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:test_http_api/post/post.dart';
-import 'package:test_http_api/post/provider/post_provider.dart';
 import 'package:test_http_api/models/post.dart';
 
 class PostBody extends StatefulWidget {
@@ -38,9 +36,9 @@ class _PostBodyState extends State<PostBody> {
 }
 
 class _PostWidget extends StatelessWidget {
-  Post? post;
+  final Post? post;
 
-  _PostWidget({
+  const _PostWidget({
     Key? key,
     this.post
   }) : super(key: key);
@@ -48,8 +46,8 @@ class _PostWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(30),
-      constraints: BoxConstraints.expand(),
+      padding: const EdgeInsets.all(30),
+      constraints: const BoxConstraints.expand(),
       color: Colors.teal,
       child: Column(
         // textDirection: TextDirection.ltr,

@@ -10,7 +10,7 @@ void main() {
       await tester.pumpWidget(
         Provider(
           create: (context) => ChangeNotifierProvider(create: (_) => PostNotifier()),
-          child: MaterialApp(home: PostBody()),
+          child: MaterialApp(home: PostBody(pageArguments: PostPageArguments(2),)),
         ),
       );
 

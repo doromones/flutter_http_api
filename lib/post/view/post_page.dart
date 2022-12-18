@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:test_http_api/post/post.dart';
-import 'package:test_http_api/post/provider/provider.dart';
-import 'package:test_http_api/post/widgets/post_body.dart';
 
 /// {@template post_page}
 /// A description for PostPage
@@ -18,7 +16,6 @@ class PostPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pageArguments = ModalRoute.of(context)!.settings.arguments as PostPageArguments;
-    print(pageArguments.postId.toString());
 
     return ChangeNotifierProvider(
       create: (context) => PostNotifier(),

@@ -20,9 +20,9 @@ class PostsPage extends StatelessWidget {
       create: (context) => PostsNotifier(),
       child: Scaffold(
         appBar: AppBar(
-          title: Text("qweqwe"),
+          title: const Text("qweqwe"),
         ),
-        body: PostsView(),
+        body: const PostsView(),
       ),
     );
   }   
@@ -37,6 +37,6 @@ class PostsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PostsBody();
+    return const PostsBody();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_http_api/models/post.dart';
 import 'package:test_http_api/services/api.dart';
 
 class PostsNotifier with ChangeNotifier {
@@ -43,26 +44,3 @@ class PostsNotifier with ChangeNotifier {
     notifyListeners();
   }
 }
-
-class Post {
-  final int id;
-  final int userId;
-  final String title;
-  final String body;
-
-  const Post({
-    required this.id,
-    required this.userId,
-    required this.title,
-    required this.body,
-  });
-
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
-        id: json['id'],
-        userId: json['userId'],
-        title: json['title'],
-        body: json['body']);
-  }
-}
-

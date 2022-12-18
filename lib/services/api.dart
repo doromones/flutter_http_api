@@ -7,19 +7,14 @@ import 'package:test_http_api/models/post.dart';
 
 class Api {
   final http.Client _client;
+  final String _domain = 'https://jsonplaceholder.typicode.com';
 
   Api({http.Client? client}) : _client = client ?? http.Client();
 
   Future<Iterable> fetchPosts({int page = 1, int limit = 20}) async {
-    await Future.delayed(Duration(seconds: 1));
+    Uri uri = Uri.parse('$_domain/posts?_page=$page&_limit=$limit');
+    final response = await get(uri);
 
-    Uri uri = Uri.parse(
-        'https://jsonplaceholder.typicode.com/posts?_page=$page&_limit=$limit'
-    );
-
-    log(uri.toString());
-
-    final response = await _client.get(uri);
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
     } else {
@@ -27,13 +22,26 @@ class Api {
     }
   }
 
-  Future<Post> fetchPost(int postId) async {
-    final response = await _client
-        .get(Uri.parse('https://jsonplaceholder.typicode.com/posts/$postId'));
+  Future<Map<String, dynamic>> fetchPost(int postId) async {
+    Uri uri = Uri.parse('$_domain/posts/$postId');
+    final response = await get(uri);
+
     if (response.statusCode == 200) {
-      return Post.fromJson(jsonDecode(response.body));
+      return jsonDecode(response.body);
     } else {
-      throw Exception('Failed to load post');
+      throw NotFoundException('Failed to load post');
     }
   }
+
+  Future<http.Response> get(Uri uri) async {
+    await Future.delayed(Duration(seconds: 1));
+    log(uri.toString());
+
+    return _client.get(uri);
+  }
+}
+
+class NotFoundException implements Exception {
+  String cause;
+  NotFoundException(this.cause);
 }

@@ -18,7 +18,10 @@ class PostsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => PostsNotifier(),
-      child: const Scaffold(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("qweqwe"),
+        ),
         body: PostsView(),
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:test_http_api/models/post.dart';
+import 'package:test_http_api/post/view/post_page.dart';
 import 'package:test_http_api/posts/posts.dart';
 
 class PostsBody extends StatefulWidget {
@@ -74,6 +76,16 @@ class _PostsBodyState extends State<PostsBody> {
                 return Card(
                     child: ListTile(
                   title: Text("${post.id} - ${post.title}"),
+                  trailing: IconButton(
+                    icon: Icon(Icons.keyboard_arrow_right),
+                    onPressed: (){
+                      Navigator.pushNamed(
+                        context,
+                        '/post',
+                        arguments: PostPageArguments(post.id)
+                      );
+                    },
+                  ),
                   // onTap: () => openPost(context, post)
                 ));
               },
